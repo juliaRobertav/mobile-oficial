@@ -1,0 +1,10 @@
+o que falta - 
+
+consumir api django
+
+fazer telas:
+
+transferencia
+cartao
+extrato
+empréstimo
