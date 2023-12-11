@@ -20,7 +20,6 @@ export default function Conta({ navigation }) {
     const [renda , setRenda ] = useState()
     const [agencia , setAgencia ] = useState('')
     const [saldo , setSaldo ] = useState('')
-    
 
     return (
         <View style={styles.container}>

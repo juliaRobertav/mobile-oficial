@@ -29,6 +29,29 @@ export default function cadastro({ navigation }) {
     const [blob, setBlob] = useState(null)
     const auth = getAuth(app);
 
+
+    // consumindo api para cadastrar
+    const cadastro = () => {
+        // registrar usuario
+        axios.post('http://127.0.0.1:8000/api_cadastro/', 
+        {
+            nome: nome,
+            data_nascimento: data_nascimento,
+            cpf: cpf,
+            cep: cep,
+            num: num,
+            email: email,
+            imagem, imagem
+        },
+        {}
+        ).then((res) => {
+            navigation.navigate(Conta);
+        }).catch((erro) => {
+            console.log(erro)
+        })
+
+    }
+
     const getBlobFroUri = async (uri) => {
         const blob = await new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
@@ -100,6 +123,9 @@ export default function cadastro({ navigation }) {
     }
 
 
+
+
+
     const cadastrar = async () => {
         const docRef = await addDoc(collection(db, "cadastro"), {
 
@@ -167,7 +193,6 @@ export default function cadastro({ navigation }) {
             });
         uploadingImage()
     }
-
 
 
 
@@ -329,7 +354,7 @@ export default function cadastro({ navigation }) {
                         style={styles.btnProximo}
                         onPress={cadastrar}
                     >
-                        <Text style={{ fontSize: 25, color:'#fff' }}>PRÓXIMO</Text>
+                        <Text style={{ fontSize: 25, color:'#fff' }} onPress={cadastro}>PRÓXIMO</Text>
                     </TouchableOpacity>
                 </View>
                 </ScrollView>
