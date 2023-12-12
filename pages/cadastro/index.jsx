@@ -36,18 +36,26 @@ export default function cadastro({ navigation }) {
         axios.post('http://127.0.0.1:8000/api_cadastro/', 
         {
             nome: nome,
-            data_nascimento: data_nascimento,
+            nasc: data_nascimento,
             cpf: cpf,
+            email: email,
+            senha: senha,
+            rua: logradouro,
             cep: cep,
             num: num,
-            email: email,
-            imagem, imagem
+            bairro: bairro,
+            cidade: localidade,
+            estado: uf,
+            foto: email + '_' + imagem
         },
         {}
         ).then((res) => {
             navigation.navigate(Conta);
         }).catch((erro) => {
             console.log(erro)
+            if (erro.response) {
+                console.error('Detalhes da API:', erro.response.data);
+            }
         })
 
     }
@@ -106,21 +114,21 @@ export default function cadastro({ navigation }) {
         }
     };
 
-    const storage = getStorage(app);
-    // Create the file metadata
-    /** @type {any} */
-    const metadata = {
-        contentType: 'image/jpeg'
-    };
+    // const storage = getStorage(app);
+    // // Create the file metadata
+    // /** @type {any} */
+    // const metadata = {
+    //     contentType: 'image/jpeg'
+    // };
 
-    const uploadingImage = () => {
-        console.log("Data: ", Date.now())
-        // Upload file and metadata to the object 'images/mountains.jpg'
-        // const storageRef = ref(storage, 'images/' + Date.now());
-        const storageRef = ref(storage, 'images/' + imagem);
-        const uploadTask = uploadBytesResumable(storageRef, blob, metadata);
+    // const uploadingImage = () => {
+    //     console.log("Data: ", Date.now())
+    //     // Upload file and metadata to the object 'images/mountains.jpg'
+    //     // const storageRef = ref(storage, 'images/' + Date.now());
+    //     const storageRef = ref(storage, 'images/' + imagem);
+    //     const uploadTask = uploadBytesResumable(storageRef, blob, metadata);
 
-    }
+    // }
 
 
 
@@ -352,7 +360,7 @@ export default function cadastro({ navigation }) {
                     
                     <TouchableOpacity
                         style={styles.btnProximo}
-                        onPress={cadastrar}
+                        onPress={cadastro}
                     >
                         <Text style={{ fontSize: 25, color:'#fff' }} onPress={cadastro}>PRÓXIMO</Text>
                     </TouchableOpacity>
