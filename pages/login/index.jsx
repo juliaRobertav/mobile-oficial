@@ -10,17 +10,23 @@ import Conta from '../conta';
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [tentativas, setTentativas] = useState(0);
+  const [login, setLogin] = useState(0); 
+  const [telaBloq, setTelaBloq] = useState(false);
+  // const [tentativas, setTentativas] = useState(0);
 
   const logar = () => {
-    axios
-      .post('http://127.0.0.1:8000/api_login/', {
+
+    console.log("entrou na função")
+
+    axios.post('http://127.0.0.1:8000/api_login/', {
         email: email,
         senha: senha,
       })
       .then((res) => {
-        if (res.data && res.data.sucesso === true) {
-          navigation.navigate('Conta');
+        console.log("fez login")
+        console.log(res)
+        if (res.data && res.status === 200) {
+          navigation.navigate(Conta);
         } else {
           handleLoginError();
         }
@@ -35,14 +41,13 @@ export default function Login({ navigation }) {
   };
 
   const handleLoginError = () => {
-    // setTentativas(tentativas + 1);
-    if (tentativas >= 3) {
-      // Se exceder 3 tentativas, bloqueia o login
-      Alert.alert('Erro', 'Você excedeu o número máximo de tentativas de login. Tente novamente mais tarde.');
-    } else {
-      Alert.alert('Erro', 'Credenciais inválidas. Tente novamente.');
+    setLogin(login + 1); 
+    if (login >= 2) {
+      setTelaBloq(true);
+      console.log('Você atingiu o número máximo de tentativas. Bloqueando tela...');
     }
   };
+  
 
   function cadastrar() {
     navigation.navigate('SignUp');
@@ -50,6 +55,10 @@ export default function Login({ navigation }) {
 
   return (
     <View style={styles.container}>
+      {telaBloq ? (
+              <Text style={styles.bloq}>Você atingiu o número máximo de tentativas...</Text>
+          
+          ) : (
       <ImageBackground style={styles.container} source={background}>
         <View style={styles.minicontainer}>
           <Text style={styles.title}>Login</Text>
@@ -77,6 +86,7 @@ export default function Login({ navigation }) {
           </View>
         </View>
       </ImageBackground>
+        )}
     </View>
   );
 }

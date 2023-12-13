@@ -31,32 +31,39 @@ export default function cadastro({ navigation }) {
 
 
     // consumindo api para cadastrar
-    const cadastro = () => {
+    const cadastro = async () => {
         // registrar usuario
-        axios.post('http://127.0.0.1:8000/api_cadastro/', 
-        {
-            nome: nome,
-            nasc: data_nascimento,
-            cpf: cpf,
-            email: email,
-            senha: senha,
-            rua: logradouro,
-            cep: cep,
-            num: num,
-            bairro: bairro,
-            cidade: localidade,
-            estado: uf,
-            foto: email + '_' + imagem
-        },
-        {}
-        ).then((res) => {
-            navigation.navigate(Conta);
-        }).catch((erro) => {
-            console.log(erro)
-            if (erro.response) {
-                console.error('Detalhes da API:', erro.response.data);
-            }
-        })
+        console.log("entrou no cadastro")
+
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/api_cadastro/', {
+                nome: nome,
+                nasc: data_nascimento,
+                cpf: cpf,
+                email: email,
+                senha: senha,
+                rua: logradouro,
+                cep: cep,
+                num: num,
+                bairro: bairro,
+                cidade: localidade,
+                estado: uf,
+                imagem: imagem
+            })
+            console.log("cadastrou", response.data)
+
+        } catch(error)  {
+            console.error('Erro no cadastro:', error)
+        }
+
+        // .then((res) => {
+           
+        //     console.log(res)
+        //     if (res.data && res.status === 200) {
+        //         navigation.navigate(Conta);
+        //     } 
+        // })
+       
 
     }
 
@@ -95,6 +102,7 @@ export default function cadastro({ navigation }) {
             console.log(E);
         }
     };
+
     const gallery = async () => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
@@ -131,27 +139,24 @@ export default function cadastro({ navigation }) {
     // }
 
 
+    // const cadastrar = async () => {
+    //     const docRef = await addDoc(collection(db, "cadastro"), {
 
-
-
-    const cadastrar = async () => {
-        const docRef = await addDoc(collection(db, "cadastro"), {
-
-            nome: nome,
-            nasc: data_nascimento,
-            cpf: cpf,
-            email: email,
-            senha: senha,
-            rua: logradouro,
-            cep: cep,
-            num: num,
-            bairro: bairro,
-            cidade: localidade,
-            estado: uf,
-            foto: email + '_' + imagem
-        })
-        navigation.navigate('Conta')
-    }
+    //         nome: nome,
+    //         nasc: data_nascimento,
+    //         cpf: cpf,
+    //         email: email,
+    //         senha: senha,
+    //         rua: logradouro,
+    //         cep: cep,
+    //         num: num,
+    //         bairro: bairro,
+    //         cidade: localidade,
+    //         estado: uf,
+    //         foto: email + '_' + imagem
+    //     })
+    //     navigation.navigate(Conta)
+    // }
 
     const pesquisar = () => {
         console.log(cep)
@@ -164,43 +169,43 @@ export default function cadastro({ navigation }) {
             })
     }
 
-    const signup = (e) => {
-        e.preventDefault()
+    // const signup = (e) => {
+    //     e.preventDefault()
 
-        const file = imagem
+    //     const file = imagem
 
-        if (!file) {
-            console.log('Faltou imagem...')
-            return
-        }
-        if (!nome) {
-            console.log('Faltou nome...')
-            return
-        }
-        if (!email) {
-            console.log('Faltou email...')
-            return
-        }
+    //     if (!file) {
+    //         console.log('Faltou imagem...')
+    //         return
+    //     }
+    //     if (!nome) {
+    //         console.log('Faltou nome...')
+    //         return
+    //     }
+    //     if (!email) {
+    //         console.log('Faltou email...')
+    //         return
+    //     }
 
-        if (imagem == null) return
+    //     if (imagem == null) return
 
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                console.log('Entrou')
-                adicionar()
-                navigation.navigate('SignIn')
-            })
-            .catch((error) => {
-                console.log("Auth", auth)
-                console.log("email", email)
-                console.log("senha", senha)
-                console.log('não entrou')
-                const errorCode = error.code;
-                const errorMessage = error.message;
-            });
-        uploadingImage()
-    }
+    //     createUserWithEmailAndPassword(auth, email, password)
+    //         .then((userCredential) => {
+    //             const user = userCredential.user;
+    //             console.log('Entrou')
+    //             adicionar()
+    //             navigation.navigate('SignIn')
+    //         })
+    //         .catch((error) => {
+    //             console.log("Auth", auth)
+    //             console.log("email", email)
+    //             console.log("senha", senha)
+    //             console.log('não entrou')
+    //             const errorCode = error.code;
+    //             const errorMessage = error.message;
+    //         });
+    //     uploadingImage()
+    // }
 
 
 
